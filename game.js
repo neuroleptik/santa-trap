@@ -48,6 +48,7 @@ fetch("./sprites/santa/santa-images.json")
 playBtn.addEventListener("click", play);
 
 function play() {
+  music.volume = 1;
   const playerSize = player.offsetHeight; // Assumes player is square
   // Mettre à jour la variable CSS pour l'obstacle
   document.documentElement.style.setProperty(
@@ -68,6 +69,7 @@ function play() {
   playBtn.style.display = "none";
 
   setTimeout(() => {
+    music.volume = 1;
     music.play();
   }, calculateTimeToPlayer(2000));
 
@@ -137,6 +139,12 @@ function play() {
           if (playerRect.bottom - 20 > obstacleRect.top) {
             finished();
           }
+        } else if (obstacle.classList.contains("up")) {
+          if (playerRect.top < obstacleRect.bottom) {
+            if (!isSliding) {
+              finished();
+            }
+          }
         }
       }
 
@@ -144,7 +152,7 @@ function play() {
       if (obstacleRect.right < playerRect.left) {
         // Optionnel : supprime l'obstacle s'il est hors écran
         if (obstacleRect.right < 0) {
-          obstacles.slice(index, 1); // Retire l'obstacle de la liste
+          Array.from(obstacles).slice(index, 1); // Retire l'obstacle de la liste
           obstacle.remove(); // Retire l'élément DOM
         }
       }
@@ -203,17 +211,6 @@ function jump() {
   }, 300);
 }
 
-// function slide() {
-//   AnimationIndex = 1;
-//   isJumping = false;
-//   isSliding = true;
-//   player.style.animation = "slide 0.3s ease";
-//   setTimeout(() => {
-//     isSliding = false;
-//     player.style.animation = "";
-//   }, 300);
-// }
-
 function slide() {
   AnimationIndex = 1;
   isJumping = false; // Stopper le saut immédiatement
@@ -242,6 +239,16 @@ function finished() {
   isDead = true;
   isJumping = false;
   isSliding = false;
+
+  const fadeAudio = setInterval(() => {
+    if (music.volume > 0) {
+      let volume = Math.max(0, music.volume - 0.1); // Decrease volume
+      music.volume = volume; // Apply the new volume
+    } else {
+      clearInterval(fadeAudio); // Stop fading when volume is 0
+      music.pause(); // Optionally pause the audio
+    }
+  }, 100);
 
   // Arrête les intervalles
   clearInterval(collisionIntervalId);
@@ -300,7 +307,7 @@ function createObstacle(type, time) {
     }.png`;
     obstacleDiv.style.bottom = gameOverModalelementBottomPosition;
   } else {
-    obstacleDiv.style.bottom = "calc(var(--player-size) * 1.1)";
+    obstacleDiv.style.bottom = "calc(var(--player-size))";
     obstacle.src = "./sprites/objects/Ground_center.png";
   }
 
