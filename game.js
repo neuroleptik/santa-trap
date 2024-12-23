@@ -96,9 +96,9 @@ function play() {
       jump();
     }
   });
-  document.addEventListener("touchstart", (e) => {
-    jump();
-  });
+  // document.addEventListener("touchstart", (e) => {
+  //
+  // });
 
   //slide function
   document.addEventListener("keydown", (e) => {
@@ -106,11 +106,30 @@ function play() {
       slide();
     }
   });
-  // document.addEventListener("touchstart", (e) => {
-  //   if (e.code === "ArrowDown" && !isSliding) {
-  //     slide();
-  //   }
-  // });
+
+  document.addEventListener("touchstart", (event) => {
+    // Enregistrer la position initiale
+    startY = event.touches[0].clientY;
+  });
+
+  document.addEventListener("touchend", (event) => {
+    // Enregistrer la position finale
+    endY = event.changedTouches[0].clientY;
+
+    // Calculer la différence
+    const deltaY = endY - startY;
+
+    // Définir un seuil pour éviter les faux positifs
+    const threshold = 10; // en pixels
+
+    if (deltaY > threshold) {
+      slide();
+      console.log("Swipe vers le bas");
+    } else if (deltaY < -threshold) {
+      jump();
+      console.log("Swipe vers le haut");
+    }
+  });
 
   // // Collision detection
   // Intervalle pour vérifier les collisions
