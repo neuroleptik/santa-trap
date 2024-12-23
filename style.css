@@ -37,7 +37,7 @@ body {
 
 #player {
   position: absolute;
-  /* border: 1px solid red; */
+  border: 1px solid red;
   bottom: 40px;
   left: 8%;
   width: 22%;
@@ -48,8 +48,6 @@ body {
 .obstacle {
   position: absolute;
   bottom: 30px;
-  /* width: 10%;
-  height: 75px; */
   animation: moveObstacle 2s linear forwards;
 }
 
@@ -60,7 +58,10 @@ body {
 }
 
 .obstacle img {
-  width: 55%;
+  width: calc(
+    var(--player-size) / 2
+  ); /* Exemple : 2 fois la taille du joueur */
+  height: calc(var(--player-size) / 2);
   animation: moveObstacle 2s linear forwards;
 }
 

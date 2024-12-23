@@ -28,7 +28,6 @@ let upperObstacleObjects = ["Crate", "Stone", "IceBox"];
 let backgroundObjectArray = ["Tree_1", "Tree_2", "SnowMan", "Igloo"];
 
 var e = new Event("touchstart");
-// target.dispatchEvent(e);
 
 function preloadImages(imagePaths) {
   imagePaths.forEach((path) => {
@@ -49,6 +48,13 @@ fetch("./sprites/santa/santa-images.json")
 playBtn.addEventListener("click", play);
 
 function play() {
+  const playerSize = player.offsetHeight; // Assumes player is square
+  // Mettre à jour la variable CSS pour l'obstacle
+  document.documentElement.style.setProperty(
+    "--player-size",
+    `${playerSize}px`
+  );
+  console.log(playerSize);
   gameOverModal.style.display = "none";
   music.pause(); // Pause the music
   music.currentTime = 0;
@@ -138,7 +144,7 @@ function play() {
       if (obstacleRect.right < playerRect.left) {
         // Optionnel : supprime l'obstacle s'il est hors écran
         if (obstacleRect.right < 0) {
-          obstacles.splice(index, 1); // Retire l'obstacle de la liste
+          obstacles.slice(index, 1); // Retire l'obstacle de la liste
           obstacle.remove(); // Retire l'élément DOM
         }
       }
@@ -286,7 +292,7 @@ function createObstacle(type, time) {
   obstacleDiv.classList.add(type);
 
   if (type == "stay") {
-    obstacleDiv.style.bottom = "250px";
+    obstacleDiv.style.bottom = "calc(var(--player-size) * 2)";
     obstacle.src = "./sprites/objects/Ground_center.png";
   } else if (type == "down") {
     obstacle.src = `./sprites/objects/${
@@ -294,7 +300,7 @@ function createObstacle(type, time) {
     }.png`;
     obstacleDiv.style.bottom = gameOverModalelementBottomPosition;
   } else {
-    obstacleDiv.style.bottom = "130px";
+    obstacleDiv.style.bottom = "calc(var(--player-size) * 1.1)";
     obstacle.src = "./sprites/objects/Ground_center.png";
   }
 
@@ -385,3 +391,11 @@ function calculateTimeToPlayer(animationDuration) {
   // Temps nécessaire pour atteindre le joueur
   return animationDuration * (distanceToPlayer / screenWidth);
 }
+
+window.addEventListener("resize", () => {
+  const playerSize = player.style.height;
+  document.documentElement.style.setProperty(
+    "--player-size",
+    `${playerSize}px`
+  );
+});
