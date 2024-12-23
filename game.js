@@ -11,9 +11,9 @@ let isSliding = false;
 let isDead = false;
 let score = 0;
 var isPlaying = false;
-let timeH1 = document.getElementById("time");
 const preloadedImages = {};
 const gameOverModal = document.querySelector(".game-over-modal");
+let gameOverModalelementBottomPosition = "40px";
 
 let collisionIntervalId;
 let animationIntervalId;
@@ -63,7 +63,7 @@ function play() {
 
   setTimeout(() => {
     music.play();
-  }, 1700);
+  }, calculateTimeToPlayer(2000));
 
   objectGenerationIntervalId = setInterval(() => {
     const backgroundObject = document.createElement("img");
@@ -119,16 +119,16 @@ function play() {
 
       // Vérifie si le joueur entre en collision avec cet obstacle
       if (
-        playerRect.right - 70 > obstacleRect.left &&
-        playerRect.left + 70 < obstacleRect.right
+        playerRect.right - 100 > obstacleRect.left &&
+        playerRect.left + 110 < obstacleRect.right
       ) {
         // Gère la logique en cas de collision
         if (obstacle.classList.contains("stay")) {
-          if (playerRect.top + 30 < obstacleRect.bottom) {
+          if (playerRect.top + 50 < obstacleRect.bottom) {
             finished();
           }
         } else if (obstacle.classList.contains("down")) {
-          if (playerRect.bottom - 30 > obstacleRect.top) {
+          if (playerRect.bottom - 20 > obstacleRect.top) {
             finished();
           }
         }
@@ -143,7 +143,6 @@ function play() {
         }
       }
     });
-    timeH1.innerText = "Time : " + music.currentTime;
     score++;
     scoreDisplay.textContent = "Score : " + score;
   }, 60);
@@ -184,7 +183,7 @@ function jump() {
 
   // Réinitialiser la position de base pour éviter les conflits
   player.style.animation = "";
-  player.style.bottom = "-60px";
+  player.style.bottom = gameOverModalelementBottomPosition;
 
   // Appliquer l'animation de saut
   requestAnimationFrame(() => {
@@ -216,7 +215,7 @@ function slide() {
 
   // Réinitialiser la position du personnage avant d'appliquer l'animation de slide
   player.style.animation = ""; // Annuler toute animation en cours
-  player.style.bottom = "-60px"; // Remettre à la position de base
+  player.style.bottom = gameOverModalelementBottomPosition; // Remettre à la position de base
 
   // Appliquer l'animation de slide
   requestAnimationFrame(() => {
@@ -293,7 +292,7 @@ function createObstacle(type, time) {
     obstacle.src = `./sprites/objects/${
       obstacleArray[Math.floor(Math.random() * obstacleArray.length)]
     }.png`;
-    obstacleDiv.style.bottom = "0px";
+    obstacleDiv.style.bottom = gameOverModalelementBottomPosition;
   } else {
     obstacleDiv.style.bottom = "130px";
     obstacle.src = "./sprites/objects/Ground_center.png";
@@ -327,8 +326,7 @@ function changeAnimation(base_name, index) {
 
   if (preloadedImages[imagePath]) {
     // Appliquez l'image préchargée comme arrière-plan
-    player.style.background = `url('${imagePath}') no-repeat center`;
-    player.style.backgroundSize = "contain";
+    player.src = `${imagePath}`;
   } else {
     console.warn(`Image not preloaded: ${imagePath}`);
   }
@@ -375,4 +373,15 @@ function scheduleActions() {
       });
     })
     .catch((error) => console.error("Error loading traps:", error));
+}
+
+function calculateTimeToPlayer(animationDuration) {
+  const screenWidth = window.innerWidth;
+  const playerPosition = player.getBoundingClientRect().right;
+
+  // Distance entre la droite de l'écran et le joueur
+  const distanceToPlayer = screenWidth - playerPosition;
+
+  // Temps nécessaire pour atteindre le joueur
+  return animationDuration * (distanceToPlayer / screenWidth);
 }
