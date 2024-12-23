@@ -337,7 +337,7 @@ function changeAnimation(base_name, index) {
 // Fonction pour exécuter une action au bon moment
 function scheduleActions() {
   const actions = [];
-  fetch("/trap.json")
+  fetch("./trap.json")
     .then((response) => response.json())
     .then((data) => {
       // Ajoute les actions "down"
