@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-height, initial-scale=1, orientation=landscape">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jeu de Noël</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="snow.css" />
+  </head>
+  <body>
+    <div class="initial-snow">
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+      <div class="snow">&#10052;</div>
+    </div>
+    <h1 id="time">Time : <h1>
+    <h1 id="score" class="christmas-font">Score : 0</h1>
+    <div id="beats-log" style="position: absolute"></div>
+    <button id="play-btn" class="christmas-font">Play</button>
+    <div class="game-over-modal">
+      <div class="game-over-modal-content">
+        <h2 class="christmas-font">Game Over!</h2>
+           <div>
+            <img id="player-over" src="sprites/santa/Idle (1).png"></img>
+            <p class="christmas-font" id="final-score-div">Score<br><span id="final-score">0</span></p>
+          </div>
+          <button id="restart-btn" onclick="play()">Recommencer</button>
+    
+        
+      </div>
+    </div>
+    <audio id="music">
+      <source src="trap.mp3" type="audio/mpeg" />
+    </audio>
+    <div id="game">
+      <div id="player"></div>
+      <div id="snow"></div>
+    </div>
+
+    
+
+    <script src="game.js"></script>
+  </body>
+</html>

@@ -1,0 +1,188 @@
+@font-face {
+  font-family: "SnowForSanta";
+  src: url(./font/SnowForSanta.ttf) format("truetype");
+}
+
+.christmas-font {
+  font-family: "SnowForSanta";
+}
+
+html {
+  margin: 0;
+  height: 100vh;
+  padding: 0;
+  font-family: "Arial", sans-serif;
+  /* background: linear-gradient(to bottom, #87CEEB, #fff); */
+  overflow: hidden;
+  background: url("/sprites/BG.png");
+}
+
+body {
+  margin: 0;
+}
+
+#game {
+  position: relative;
+  width: 100vw;
+  height: 80vh;
+  border-bottom: 3px solid #ffffff;
+  overflow: hidden;
+  border-bottom-width: 100vh;
+}
+
+#player {
+  position: absolute;
+  border: 1px solid red;
+  bottom: -60px;
+  left: 8%;
+  width: 250px;
+  height: 250px;
+  /* background: url('sprites/Walk\ \(1\).png') no-repeat center; */
+  background: url("/sprites/Walk (0).png") no-repeat center;
+  background-size: contain;
+  z-index: 3;
+}
+
+.obstacle {
+  position: absolute;
+  bottom: -10px;
+  width: 75px;
+  height: 75px;
+  animation: moveObstacle 2s linear forwards;
+}
+
+.obstacle div {
+  position: absolute;
+  color: black;
+  font-weight: bold;
+}
+
+.obstacle img {
+  width: 100%;
+  height: 100%;
+  animation: moveObstacle 2s linear forwards;
+}
+
+.background-object {
+  position: absolute;
+  bottom: -10px;
+  width: 200px;
+  animation: moveObstacle 8s linear forwards;
+  z-index: -1;
+}
+
+#play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  height: 50px;
+  background-color: #929292;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 10px;
+  z-index: 2;
+}
+
+#play-btn:hover {
+  cursor: pointer;
+}
+
+#snow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: url("snowflake.png") repeat;
+  animation: snow 10s linear infinite;
+}
+
+@keyframes snow {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+#score {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 2rem;
+  color: #ffffff;
+}
+
+#final-score-div {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 2rem;
+  color: #9e0202;
+  position: absolute;
+  top: 20;
+  left: 75%;
+  transform: translateX(-50%);
+}
+
+#final-score {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 2rem;
+  color: #9e0202;
+}
+
+.game-over-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 5;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+}
+
+.game-over-modal-content {
+  background-color: #fff;
+  position: relative;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.game-over-modal-content div {
+  display: flex;
+}
+
+#player-over {
+  width: 300px;
+}
+
+@keyframes jump {
+  0% {
+    bottom: 10px;
+  }
+  50% {
+    bottom: 180px;
+  }
+  100% {
+    bottom: 10px;
+  }
+}
+
+@keyframes moveObstacle {
+  0% {
+    right: -100px;
+  }
+  100% {
+    right: 100vw;
+  }
+}
