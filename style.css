@@ -14,7 +14,7 @@ html {
   font-family: "Arial", sans-serif;
   /* background: linear-gradient(to bottom, #87CEEB, #fff); */
   overflow: hidden;
-  background: url("/sprites/BG.png");
+  background: url("./sprites/BG.png");
 }
 
 body {
@@ -38,7 +38,7 @@ body {
   width: 250px;
   height: 250px;
   /* background: url('sprites/Walk\ \(1\).png') no-repeat center; */
-  background: url("/sprites/Walk (0).png") no-repeat center;
+  background: url("./sprites/Walk (0).png") no-repeat center;
   background-size: contain;
   z-index: 3;
 }

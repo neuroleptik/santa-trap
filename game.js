@@ -39,7 +39,7 @@ function preloadImages(imagePaths) {
 }
 
 // Charger les images depuis le fichier JSON
-fetch("/sprites/santa/santa-images.json")
+fetch("./sprites/santa/santa-images.json")
   .then((response) => response.json())
   .then((images) => {
     preloadImages(images.map((image) => `${spriteBasePath}${image}`));
@@ -69,7 +69,7 @@ function play() {
     const backgroundObject = document.createElement("img");
     backgroundObject.classList.add("background-object");
     backgroundObject.src =
-      "/sprites/objects/" +
+      "./sprites/objects/" +
       backgroundObjectArray[
         Math.floor(Math.random() * backgroundObjectArray.length)
       ] +
@@ -288,15 +288,15 @@ function createObstacle(type, time) {
 
   if (type == "stay") {
     obstacleDiv.style.bottom = "250px";
-    obstacle.src = "/sprites/objects/Ground_center.png";
+    obstacle.src = "./sprites/objects/Ground_center.png";
   } else if (type == "down") {
-    obstacle.src = `/sprites/objects/${
+    obstacle.src = `./sprites/objects/${
       obstacleArray[Math.floor(Math.random() * obstacleArray.length)]
     }.png`;
     obstacleDiv.style.bottom = "0px";
   } else {
     obstacleDiv.style.bottom = "130px";
-    obstacle.src = "/sprites/objects/Ground_center.png";
+    obstacle.src = "./sprites/objects/Ground_center.png";
   }
 
   if (DEBUG) {
