@@ -425,3 +425,11 @@ window.addEventListener("resize", () => {
     `${playerSize}px`
   );
 });
+
+document.addEventListener(
+  "touchmove",
+  function (event) {
+    event.preventDefault();
+  },
+  { passive: false }
+);
