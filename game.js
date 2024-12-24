@@ -1,4 +1,4 @@
-const DEBUG = true;
+const DEBUG = false;
 const START_MUSIC_AT = 0;
 
 let gameArea = document.getElementById("game");
@@ -88,7 +88,6 @@ function play() {
     "--player-size",
     `${playerSize}px`
   );
-  console.log(playerSize);
   gameOverModal.style.display = "none";
   music.pause();
   music.currentTime = START_MUSIC_AT;
@@ -375,9 +374,6 @@ function createObstacle(type, time) {
 
   nbObstacleCreated++;
 
-  console.log(nbObstacleCreated);
-  console.log(musicIntervalIds.length);
-
   if (nbObstacleCreated == musicIntervalIds.length) {
     setTimeout(() => {
       if (isDead) return;
@@ -438,7 +434,6 @@ function scheduleActions() {
 
       // Trie les actions par temps croissant
       actions.sort((a, b) => a.time - b.time);
-      console.log(START_MUSIC_AT);
       // Programme les actions
       actions.forEach(({ time, type }) => {
         musicIntervalIds.push(

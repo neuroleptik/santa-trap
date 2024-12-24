@@ -59,8 +59,8 @@ body {
   z-index: 4;
   color: white;
   opacity: 0.7;
-  width: 100px;
-  height: 100px;
+  width: 75px;
+  height: 75px;
   background-size: cover;
   background-image: url("/sprites/arrow-down.png");
 }
@@ -75,8 +75,8 @@ body {
   /* transparent */
   color: white;
   opacity: 0.7;
-  width: 100px;
-  height: 100px;
+  width: 75px;
+  height: 75px;
   background-size: cover;
   background-image: url("/sprites/arrow.png");
 }
