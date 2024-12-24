@@ -524,6 +524,10 @@ document.addEventListener("visibilitychange", function () {
   }
 });
 
+document.documentElement.requestFullscreen().catch((err) => {
+  console.error("Erreur en passant en fullscreen :", err);
+});
+
 // console.log("animation time to player:", calculateTraversalTime());
 
 // function calculateTraversalTime(
