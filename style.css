@@ -116,7 +116,7 @@ body {
   position: absolute;
   bottom: 50px;
   height: calc(var(--player-size) * 1.2);
-  animation: moveObstacle 8s linear forwards;
+  animation: moveBackgroundObstacle 8s linear forwards;
   z-index: -1;
 }
 
@@ -256,6 +256,15 @@ body {
 @keyframes moveObstacle {
   0% {
     right: -100px;
+  }
+  100% {
+    right: 120vw;
+  }
+}
+
+@keyframes moveBackgroundObstacle {
+  0% {
+    right: -300px;
   }
   100% {
     right: 120vw;

@@ -23,6 +23,8 @@ let collisionIntervalId;
 let animationIntervalId;
 let objectGenerationIntervalId;
 let obstacleGenerationIntervalId;
+let fadeAudioIntervalId;
+
 let nbObstacleCreated = 0;
 let musicIntervalIds = [];
 
@@ -64,8 +66,7 @@ function play() {
   scoreDisplay.style.display = "block";
   music.volume = 1;
   const playerSize = player.offsetHeight; // Assumes player is square
-
-  console.log(animationDuration);
+  clearInterval(fadeAudioIntervalId);
   // Mettre à jour la variable CSS pour l'obstacle
   document.documentElement.style.setProperty(
     "--player-size",
@@ -288,12 +289,12 @@ function finished(win = false) {
   isJumping = false;
   isSliding = false;
 
-  const fadeAudio = setInterval(() => {
+  fadeAudioIntervalId = setInterval(() => {
     if (music.volume > 0) {
       let volume = Math.max(0, music.volume - 0.1); // Decrease volume
       music.volume = volume; // Apply the new volume
     } else {
-      clearInterval(fadeAudio); // Stop fading when volume is 0
+      clearInterval(fadeAudioIntervalId); // Stop fading when volume is 0
       music.pause(); // Optionally pause the audio
     }
   }, 100);
@@ -531,25 +532,3 @@ document.documentElement.requestFullscreen().catch((err) => {
 document.addEventListener("gesturestart", (e) => e.preventDefault());
 document.addEventListener("gesturechange", (e) => e.preventDefault());
 document.addEventListener("gestureend", (e) => e.preventDefault());
-
-// console.log("animation time to player:", calculateTraversalTime());
-
-// function calculateTraversalTime(
-//   distanceToPlayer = 500,
-//   playerLeftPosition = 70,
-//   screenWidth = window.innerWidth,
-//   baseSpeedFactor = 0.2
-// ) {
-//   // Position de départ de l'obstacle (en dehors de l'écran)
-//   const obstacleStartPosition = -distanceToPlayer;
-//   // Position finale de l'obstacle après avoir traversé l'écran
-//   const obstacleEndPosition = screenWidth + playerLeftPosition;
-//   // Distance totale à parcourir
-//   const totalDistance = obstacleEndPosition - obstacleStartPosition;
-//   // Vitesse en pixels par seconde
-//   const speed = baseSpeedFactor * screenWidth;
-//   // Temps nécessaire pour traverser
-//   const timeInSeconds = totalDistance / speed;
-
-//   return timeInSeconds;
-// }
