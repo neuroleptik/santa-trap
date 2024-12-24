@@ -13,6 +13,7 @@ let isJumping = false;
 let isSliding = false;
 let isDead = false;
 let score = 0;
+let animationDuration = 0;
 var isPlaying = false;
 const preloadedImages = {};
 const gameOverModal = document.querySelector(".game-over-modal");
@@ -52,13 +53,19 @@ fetch("./sprites/santa/santa-images.json")
 playBtn.addEventListener("click", play);
 scoreDisplay.style.display = "none";
 
+checkSize();
+
 function play() {
+  animationDuration = calculateAnimationDuration();
+
   nbObstacleCreated = 0;
   musicIntervalIds = [];
   titleDiv.style.display = "none";
   scoreDisplay.style.display = "block";
   music.volume = 1;
   const playerSize = player.offsetHeight; // Assumes player is square
+
+  console.log(animationDuration);
   // Mettre à jour la variable CSS pour l'obstacle
   document.documentElement.style.setProperty(
     "--player-size",
@@ -86,7 +93,7 @@ function play() {
   setTimeout(() => {
     music.volume = 1;
     music.play();
-  }, calculateTimeToPlayer(2000));
+  }, calculateTimeToPlayer(animationDuration * 1000) + 50);
 
   objectGenerationIntervalId = setInterval(() => {
     const backgroundObject = document.createElement("img");
@@ -341,6 +348,8 @@ function createObstacle(type, time) {
   const obstacleDiv = document.createElement("div");
   obstacleDiv.classList.add("obstacle");
   obstacleDiv.classList.add(type);
+  obstacleDiv.style.animation =
+    "moveObstacle " + animationDuration + "s linear forwards";
 
   if (type == "stay") {
     obstacleDiv.style.bottom = "calc(var(--player-size) * 2)";
@@ -383,7 +392,7 @@ function createObstacle(type, time) {
     setTimeout(() => {
       if (isDead) return;
       finished((win = true));
-    }, calculateTimeToPlayer(2000) + 500);
+    }, calculateTimeToPlayer(animationDuration * 1000) + 500);
   }
 }
 
@@ -442,7 +451,6 @@ function scheduleActions() {
       console.log(START_MUSIC_AT);
       // Programme les actions
       actions.forEach(({ time, type }) => {
-        console.log(time, type);
         musicIntervalIds.push(
           setTimeout(
             () => createObstacle(type, time),
@@ -471,6 +479,7 @@ window.addEventListener("resize", () => {
     "--player-size",
     `${playerSize}px`
   );
+  checkSize();
 });
 
 document.addEventListener(
@@ -480,3 +489,48 @@ document.addEventListener(
   },
   { passive: false }
 );
+
+function calculateAnimationDuration() {
+  const screenWidth = window.innerWidth; // Largeur de l'écran
+  const distanceToTravel = screenWidth; // Les obstacles traversent tout l'écran
+  return distanceToTravel / 900; // Durée en secondes
+}
+
+function checkSize() {
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+
+  if (width < height) {
+    // Activate the button if width is less than height
+    playBtn.innerText = "Turn your phone to play";
+    playBtn.style.backgroundColor = "inherit";
+    //playBtn.style.background = "inherit";
+    playBtn.disabled = true;
+  } else {
+    playBtn.innerText = "Play";
+    playBtn.style.backgroundColor = "#9e0202";
+    playBtn.disabled = false;
+  }
+}
+
+// console.log("animation time to player:", calculateTraversalTime());
+
+// function calculateTraversalTime(
+//   distanceToPlayer = 500,
+//   playerLeftPosition = 70,
+//   screenWidth = window.innerWidth,
+//   baseSpeedFactor = 0.2
+// ) {
+//   // Position de départ de l'obstacle (en dehors de l'écran)
+//   const obstacleStartPosition = -distanceToPlayer;
+//   // Position finale de l'obstacle après avoir traversé l'écran
+//   const obstacleEndPosition = screenWidth + playerLeftPosition;
+//   // Distance totale à parcourir
+//   const totalDistance = obstacleEndPosition - obstacleStartPosition;
+//   // Vitesse en pixels par seconde
+//   const speed = baseSpeedFactor * screenWidth;
+//   // Temps nécessaire pour traverser
+//   const timeInSeconds = totalDistance / speed;
+
+//   return timeInSeconds;
+// }
