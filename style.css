@@ -42,8 +42,8 @@ body {
 
 #arrow-left {
   position: absolute;
-  top: 40%;
-  left: 75px;
+  top: 50%;
+  left: 150px;
   font-size: 100px;
   transform: translate(-50%, -50%);
   z-index: 4;
@@ -51,8 +51,8 @@ body {
 
 #arrow-right {
   position: absolute;
-  top: 40%;
-  right: 75px;
+  top: 50%;
+  right: 150px;
   transform: translate(50%, -50%);
   font-size: 100px;
   z-index: 4;

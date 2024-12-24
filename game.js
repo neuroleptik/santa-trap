@@ -135,29 +135,29 @@ function play() {
     }
   });
 
-  document.addEventListener("touchstart", (event) => {
-    // Enregistrer la position initiale
-    startY = event.touches[0].clientY;
-  });
+  // document.addEventListener("touchstart", (event) => {
+  //   // Enregistrer la position initiale
+  //   startY = event.touches[0].clientY;
+  // });
 
-  document.addEventListener("touchend", (event) => {
-    // Enregistrer la position finale
-    endY = event.changedTouches[0].clientY;
+  // document.addEventListener("touchend", (event) => {
+  //   // Enregistrer la position finale
+  //   endY = event.changedTouches[0].clientY;
 
-    // Calculer la différence
-    const deltaY = endY - startY;
+  //   // Calculer la différence
+  //   const deltaY = endY - startY;
 
-    // Définir un seuil pour éviter les faux positifs
-    const threshold = 10; // en pixels
+  //   // Définir un seuil pour éviter les faux positifs
+  //   const threshold = 10; // en pixels
 
-    if (deltaY > threshold) {
-      slide();
-      console.log("Swipe vers le bas");
-    } else {
-      jump();
-      console.log("Swipe vers le haut");
-    }
-  });
+  //   if (deltaY > threshold) {
+  //     slide();
+  //     console.log("Swipe vers le bas");
+  //   } else {
+  //     jump();
+  //     console.log("Swipe vers le haut");
+  //   }
+  // });
 
   // // Collision detection
   // Intervalle pour vérifier les collisions
