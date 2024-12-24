@@ -1,4 +1,4 @@
-const DEBUG = false;
+const DEBUG = true;
 const START_MUSIC_AT = 0;
 const COLLISION = true;
 
@@ -511,9 +511,17 @@ function checkSize() {
     playBtn.disabled = true;
     playBtn.style.backgroundColor = "inherit";
   } else {
-    playBtn.innerText = "Please add the app to home screen to play";
-    playBtn.disabled = true;
-    playBtn.style.backgroundColor = "inherit";
+    if (width < height) {
+      // Activate the button if width is less than height
+      playBtn.innerText = "Turn your phone to play";
+      playBtn.style.backgroundColor = "inherit";
+      //playBtn.style.background = "inherit";
+      playBtn.disabled = true;
+    } else {
+      playBtn.innerText = "Play";
+      playBtn.style.backgroundColor = "#9e0202";
+      playBtn.disabled = false;
+    }
   }
 }
 
