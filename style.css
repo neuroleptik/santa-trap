@@ -3,6 +3,7 @@
   -webkit-user-select: none;
   --touch-action: none; /* Désactive les gestes de base */
   -webkit-touch-callout: none; /* Désactive les menus contextuels */
+  min-height: -webkit-fill-available;
 }
 
 @font-face {
@@ -13,6 +14,7 @@
 html.iphone,
 html.iphone body {
   height: 100.1%;
+  min-height: -webkit-fill-available;
 }
 
 .christmas-font {
