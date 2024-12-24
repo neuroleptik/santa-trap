@@ -71,9 +71,6 @@ scoreDisplay.style.display = "none";
 checkSize();
 
 function play() {
-  // document.documentElement.requestFullscreen().catch((err) => {
-  //   alert(`Error attempting to enable fullscreen mode: ${err.message}`);
-  // });
   animationDuration = calculateAnimationDuration();
 
   arrowLeft.style.display = "block";
@@ -84,25 +81,25 @@ function play() {
   titleDiv.style.display = "none";
   scoreDisplay.style.display = "block";
   music.volume = 1;
-  const playerSize = player.offsetHeight; // Assumes player is square
+  const playerSize = player.offsetHeight;
   clearInterval(fadeAudioIntervalId);
-  // Mettre à jour la variable CSS pour l'obstacle
+
   document.documentElement.style.setProperty(
     "--player-size",
     `${playerSize}px`
   );
   console.log(playerSize);
   gameOverModal.style.display = "none";
-  music.pause(); // Pause the music
+  music.pause();
   music.currentTime = START_MUSIC_AT;
 
   isDead = false;
   isPlaying = true;
-  // remove all obstacles
+
   Array.from(obstacles).forEach((obstacle) => {
     obstacle.remove();
   });
-  // remove all obstacles
+
   Array.from(document.getElementsByClassName("background-object")).forEach(
     (obstacle) => {
       obstacle.remove();

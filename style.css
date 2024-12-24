@@ -50,27 +50,24 @@ body {
   padding-left: env(safe-area-inset-left); */
 }
 
-.arrow {
-  border: solid black;
-  border-width: 0 4px 4px 0;
-  display: inline-block;
-  padding: 3px;
-}
-
 #arrow-left {
   position: absolute;
-  top: 50%;
+  top: 40%;
   left: 75px;
   font-size: 75px;
   transform: translate(-50%, -50%);
   z-index: 4;
   color: white;
   opacity: 0.7;
+  width: 100px;
+  height: 100px;
+  background-size: cover;
+  background-image: url("/sprites/arrow.png");
 }
 
 #arrow-right {
   position: absolute;
-  top: 50%;
+  top: 40%;
   right: 75px;
   transform: translate(50%, -50%);
   font-size: 75px;
@@ -78,6 +75,10 @@ body {
   /* transparent */
   color: white;
   opacity: 0.7;
+  width: 100px;
+  height: 100px;
+  background-size: cover;
+  background-image: url("/sprites/arrow-down.png");
 }
 
 #title-div {
