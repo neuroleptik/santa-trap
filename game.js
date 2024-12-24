@@ -1,4 +1,4 @@
-const DEBUG = false;
+const DEBUG = true;
 const START_MUSIC_AT = 0;
 
 let gameArea = document.getElementById("game");
@@ -18,6 +18,8 @@ var isPlaying = false;
 const preloadedImages = {};
 const gameOverModal = document.querySelector(".game-over-modal");
 let gameOverModalelementBottomPosition = "35px";
+let arrowLeft = document.getElementById("arrow-left");
+let arrowRight = document.getElementById("arrow-right");
 
 let collisionIntervalId;
 let animationIntervalId;
@@ -45,6 +47,9 @@ function preloadImages(imagePaths) {
   });
 }
 
+arrowLeft.style.display = "none";
+arrowRight.style.display = "none";
+
 // Charger les images depuis le fichier JSON
 fetch("./sprites/santa/santa-images.json")
   .then((response) => response.json())
@@ -70,6 +75,9 @@ function play() {
   //   alert(`Error attempting to enable fullscreen mode: ${err.message}`);
   // });
   animationDuration = calculateAnimationDuration();
+
+  arrowLeft.style.display = "block";
+  arrowRight.style.display = "block";
 
   nbObstacleCreated = 0;
   musicIntervalIds = [];

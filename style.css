@@ -29,7 +29,6 @@ html {
   /* background: linear-gradient(to bottom, #87CEEB, #fff); */
   overflow: hidden;
   background: url("./sprites/BG.png");
-  background-color: #05fa25;
 }
 
 @supports (-webkit-touch-callout: none) {
@@ -44,20 +43,28 @@ body {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background-color: #ff0022;
   /* padding-top: env(safe-area-inset-top);
   padding-right: env(safe-area-inset-right);
   padding-bottom: env(safe-area-inset-bottom);
   padding-left: env(safe-area-inset-left); */
 }
 
+.arrow {
+  border: solid black;
+  border-width: 0 4px 4px 0;
+  display: inline-block;
+  padding: 3px;
+}
+
 #arrow-left {
   position: absolute;
   top: 50%;
   left: 75px;
-  font-size: 100px;
+  font-size: 75px;
   transform: translate(-50%, -50%);
   z-index: 4;
+  color: white;
+  opacity: 0.7;
 }
 
 #arrow-right {
@@ -65,8 +72,11 @@ body {
   top: 50%;
   right: 75px;
   transform: translate(50%, -50%);
-  font-size: 100px;
+  font-size: 75px;
   z-index: 4;
+  /* transparent */
+  color: white;
+  opacity: 0.7;
 }
 
 #title-div {
