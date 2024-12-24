@@ -118,9 +118,6 @@ function play() {
       jump();
     }
   });
-  // document.addEventListener("touchstart", (e) => {
-  //
-  // });
 
   //slide function
   document.addEventListener("keydown", (e) => {
@@ -147,7 +144,7 @@ function play() {
     if (deltaY > threshold) {
       slide();
       console.log("Swipe vers le bas");
-    } else if (deltaY < -threshold) {
+    } else {
       jump();
       console.log("Swipe vers le haut");
     }

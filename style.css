@@ -7,6 +7,11 @@
   src: url(./font/SnowForSanta.ttf) format("truetype");
 }
 
+html.iphone,
+html.iphone body {
+  height: 100.1%;
+}
+
 .christmas-font {
   font-family: "SnowForSanta";
 }
@@ -23,7 +28,7 @@ html {
 
 body {
   margin: 0;
-
+  height: 100vh;
   padding-top: env(safe-area-inset-top);
   padding-right: env(safe-area-inset-right);
   padding-bottom: env(safe-area-inset-bottom);
