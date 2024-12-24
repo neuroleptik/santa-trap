@@ -1,5 +1,6 @@
 const DEBUG = false;
 const START_MUSIC_AT = 0;
+const COLLISION = true;
 
 let gameArea = document.getElementById("game");
 let player = document.getElementById("player");
@@ -145,6 +146,10 @@ function play() {
   // // Collision detection
   // Intervalle pour vérifier les collisions
   collisionIntervalId = setInterval(() => {
+    score++;
+    scoreDisplay.textContent = "Score : " + score;
+
+    if (!COLLISION) return;
     if (isDead) return;
     if (obstacles.length === 0) return;
 
@@ -185,8 +190,6 @@ function play() {
         }
       }
     });
-    score++;
-    scoreDisplay.textContent = "Score : " + score;
   }, 60);
   //generation d'obstacle
   obstacleGenerationIntervalId = scheduleActions();
