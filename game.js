@@ -29,6 +29,7 @@ let nbObstacleCreated = 0;
 let musicIntervalIds = [];
 
 const spriteBasePath = "sprites/santa/";
+const spriteObstacleBasePath = "sprites/objects/";
 
 let obstacleArray = ["Stone", "Crate", "Crystal", "Sign_2", "IceBox"];
 let upperObstacleObjects = ["Crate", "Stone", "IceBox"];
@@ -49,6 +50,13 @@ fetch("./sprites/santa/santa-images.json")
   .then((response) => response.json())
   .then((images) => {
     preloadImages(images.map((image) => `${spriteBasePath}${image}`));
+  })
+  .catch((error) => console.error("Error loading santa images:", error));
+
+fetch("./sprites/objects/obstacle-images.json")
+  .then((response) => response.json())
+  .then((images) => {
+    preloadImages(images.map((image) => `${spriteObstacleBasePath}${image}`));
   })
   .catch((error) => console.error("Error loading santa images:", error));
 
