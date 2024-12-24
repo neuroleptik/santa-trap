@@ -528,6 +528,10 @@ document.documentElement.requestFullscreen().catch((err) => {
   console.error("Erreur en passant en fullscreen :", err);
 });
 
+document.addEventListener("gesturestart", (e) => e.preventDefault());
+document.addEventListener("gesturechange", (e) => e.preventDefault());
+document.addEventListener("gestureend", (e) => e.preventDefault());
+
 // console.log("animation time to player:", calculateTraversalTime());
 
 // function calculateTraversalTime(
