@@ -62,7 +62,7 @@ body {
   width: 100px;
   height: 100px;
   background-size: cover;
-  background-image: url("/sprites/arrow.png");
+  background-image: url("/sprites/arrow-down.png");
 }
 
 #arrow-right {
@@ -78,7 +78,7 @@ body {
   width: 100px;
   height: 100px;
   background-size: cover;
-  background-image: url("/sprites/arrow-down.png");
+  background-image: url("/sprites/arrow.png");
 }
 
 #title-div {
