@@ -66,6 +66,9 @@ scoreDisplay.style.display = "none";
 checkSize();
 
 function play() {
+  document.documentElement.requestFullscreen().catch((err) => {
+    alert(`Error attempting to enable fullscreen mode: ${err.message}`);
+  });
   animationDuration = calculateAnimationDuration();
 
   nbObstacleCreated = 0;
@@ -134,30 +137,6 @@ function play() {
       slide();
     }
   });
-
-  // document.addEventListener("touchstart", (event) => {
-  //   // Enregistrer la position initiale
-  //   startY = event.touches[0].clientY;
-  // });
-
-  // document.addEventListener("touchend", (event) => {
-  //   // Enregistrer la position finale
-  //   endY = event.changedTouches[0].clientY;
-
-  //   // Calculer la différence
-  //   const deltaY = endY - startY;
-
-  //   // Définir un seuil pour éviter les faux positifs
-  //   const threshold = 10; // en pixels
-
-  //   if (deltaY > threshold) {
-  //     slide();
-  //     console.log("Swipe vers le bas");
-  //   } else {
-  //     jump();
-  //     console.log("Swipe vers le haut");
-  //   }
-  // });
 
   // // Collision detection
   // Intervalle pour vérifier les collisions
@@ -486,6 +465,7 @@ window.addEventListener("resize", () => {
     `${playerSize}px`
   );
   checkSize();
+  animationDuration = calculateAnimationDuration();
 });
 
 document.addEventListener(
@@ -531,10 +511,6 @@ document.addEventListener("visibilitychange", function () {
       music.play();
     }
   }
-});
-
-document.documentElement.requestFullscreen().catch((err) => {
-  console.error("Erreur en passant en fullscreen :", err);
 });
 
 document.addEventListener("gesturestart", (e) => e.preventDefault());
