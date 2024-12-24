@@ -77,6 +77,13 @@ function play() {
   arrowLeft.style.display = "block";
   arrowRight.style.display = "block";
 
+  arrowLeft.addEventListener("touchstart", () => {
+    slide();
+  });
+  arrowRight.addEventListener("touchstart", () => {
+    jump();
+  });
+
   nbObstacleCreated = 0;
   musicIntervalIds = [];
   titleDiv.style.display = "none";
