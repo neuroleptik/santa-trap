@@ -489,16 +489,31 @@ function checkSize() {
   const width = window.innerWidth;
   const height = window.innerHeight;
 
-  if (width < height) {
-    // Activate the button if width is less than height
-    playBtn.innerText = "Turn your phone to play";
-    playBtn.style.backgroundColor = "inherit";
-    //playBtn.style.background = "inherit";
+  const isStandalonePWA =
+    window.matchMedia("(display-mode: standalone)").matches ||
+    window.navigator.standalone;
+  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+  if (isStandalonePWA) {
+    if (width < height) {
+      // Activate the button if width is less than height
+      playBtn.innerText = "Turn your phone to play";
+      playBtn.style.backgroundColor = "inherit";
+      //playBtn.style.background = "inherit";
+      playBtn.disabled = true;
+    } else {
+      playBtn.innerText = "Play";
+      playBtn.style.backgroundColor = "#9e0202";
+      playBtn.disabled = false;
+    }
+  } else if (isSafari) {
+    playBtn.innerText = "Please add the app to home screen to play";
     playBtn.disabled = true;
+    playBtn.style.backgroundColor = "inherit";
   } else {
-    playBtn.innerText = "Play";
-    playBtn.style.backgroundColor = "#9e0202";
-    playBtn.disabled = false;
+    playBtn.innerText = "Please add the app to home screen to play";
+    playBtn.disabled = true;
+    playBtn.style.backgroundColor = "inherit";
   }
 }
 
@@ -519,16 +534,3 @@ document.addEventListener("visibilitychange", function () {
 document.addEventListener("gesturestart", (e) => e.preventDefault());
 document.addEventListener("gesturechange", (e) => e.preventDefault());
 document.addEventListener("gestureend", (e) => e.preventDefault());
-
-const isStandalonePWA =
-  window.matchMedia("(display-mode: standalone)").matches ||
-  window.navigator.standalone;
-const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-
-if (isStandalonePWA) {
-  alert("L'application est exécutée comme une PWA");
-} else if (isSafari) {
-  alert("L'application est exécutée dans Safari");
-} else {
-  alert("L'application est exécutée dans un autre navigateur");
-}
