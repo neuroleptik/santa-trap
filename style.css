@@ -43,7 +43,7 @@ body {
 #arrow-left {
   position: absolute;
   top: 50%;
-  left: 150px;
+  left: 75px;
   font-size: 100px;
   transform: translate(-50%, -50%);
   z-index: 4;
@@ -52,7 +52,7 @@ body {
 #arrow-right {
   position: absolute;
   top: 50%;
-  right: 150px;
+  right: 75px;
   transform: translate(50%, -50%);
   font-size: 100px;
   z-index: 4;
@@ -94,7 +94,7 @@ body {
 #player {
   position: absolute;
   bottom: 35px;
-  left: 8%;
+  left: 1%;
   width: 200px;
   /* min-width: 0px; */
   /* background: url('sprites/Walk\ \(1\).png') no-repeat center; */
