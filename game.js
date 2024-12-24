@@ -1,11 +1,14 @@
 const DEBUG = true;
+const START_MUSIC_AT = 0;
 
 let gameArea = document.getElementById("game");
 let player = document.getElementById("player");
+let playerBoundingBox = document.getElementById("player-bounding-box");
 let obstacles = document.getElementsByClassName("obstacle");
 let scoreDisplay = document.getElementById("score");
 let playBtn = document.getElementById("play-btn");
 let music = document.getElementById("music");
+let titleDiv = document.getElementById("title-div");
 let isJumping = false;
 let isSliding = false;
 let isDead = false;
@@ -13,12 +16,13 @@ let score = 0;
 var isPlaying = false;
 const preloadedImages = {};
 const gameOverModal = document.querySelector(".game-over-modal");
-let gameOverModalelementBottomPosition = "40px";
+let gameOverModalelementBottomPosition = "35px";
 
 let collisionIntervalId;
 let animationIntervalId;
 let objectGenerationIntervalId;
 let obstacleGenerationIntervalId;
+let nbObstacleCreated = 0;
 let musicIntervalIds = [];
 
 const spriteBasePath = "sprites/santa/";
@@ -46,8 +50,13 @@ fetch("./sprites/santa/santa-images.json")
   .catch((error) => console.error("Error loading santa images:", error));
 
 playBtn.addEventListener("click", play);
+scoreDisplay.style.display = "none";
 
 function play() {
+  nbObstacleCreated = 0;
+  musicIntervalIds = [];
+  titleDiv.style.display = "none";
+  scoreDisplay.style.display = "block";
   music.volume = 1;
   const playerSize = player.offsetHeight; // Assumes player is square
   // Mettre à jour la variable CSS pour l'obstacle
@@ -58,7 +67,7 @@ function play() {
   console.log(playerSize);
   gameOverModal.style.display = "none";
   music.pause(); // Pause the music
-  music.currentTime = 0;
+  music.currentTime = START_MUSIC_AT;
 
   isDead = false;
   isPlaying = true;
@@ -66,6 +75,12 @@ function play() {
   Array.from(obstacles).forEach((obstacle) => {
     obstacle.remove();
   });
+  // remove all obstacles
+  Array.from(document.getElementsByClassName("background-object")).forEach(
+    (obstacle) => {
+      obstacle.remove();
+    }
+  );
   playBtn.style.display = "none";
 
   setTimeout(() => {
@@ -137,29 +152,27 @@ function play() {
     if (isDead) return;
     if (obstacles.length === 0) return;
 
-    // Récupère les dimensions du personnage (statique)
-    const playerRect = player.getBoundingClientRect();
-
     // Parcourt tous les obstacles pour vérifier les collisions
     Array.from(obstacles).forEach((obstacle, index) => {
       const obstacleRect = obstacle.getBoundingClientRect();
+      const playerBoundingBoxRect = playerBoundingBox.getBoundingClientRect();
 
       // Vérifie si le joueur entre en collision avec cet obstacle
       if (
-        playerRect.right - 100 > obstacleRect.left &&
-        playerRect.left + 110 < obstacleRect.right
+        playerBoundingBoxRect.right > obstacleRect.left &&
+        playerBoundingBoxRect.left < obstacleRect.right
       ) {
         // Gère la logique en cas de collision
         if (obstacle.classList.contains("stay")) {
-          if (playerRect.top + 50 < obstacleRect.bottom) {
+          if (playerBoundingBoxRect.top < obstacleRect.bottom) {
             finished();
           }
         } else if (obstacle.classList.contains("down")) {
-          if (playerRect.bottom - 20 > obstacleRect.top) {
+          if (playerBoundingBoxRect.bottom > obstacleRect.top) {
             finished();
           }
         } else if (obstacle.classList.contains("up")) {
-          if (playerRect.top < obstacleRect.bottom) {
+          if (playerBoundingBoxRect.top < obstacleRect.bottom) {
             if (!isSliding) {
               finished();
             }
@@ -168,7 +181,7 @@ function play() {
       }
 
       // Met à jour le score si l'obstacle a été dépassé
-      if (obstacleRect.right < playerRect.left) {
+      if (obstacleRect.right < playerBoundingBoxRect.left) {
         // Optionnel : supprime l'obstacle s'il est hors écran
         if (obstacleRect.right < 0) {
           Array.from(obstacles).slice(index, 1); // Retire l'obstacle de la liste
@@ -239,6 +252,9 @@ function slide() {
   player.style.animation = ""; // Annuler toute animation en cours
   player.style.bottom = gameOverModalelementBottomPosition; // Remettre à la position de base
 
+  playerBoundingBox.style.top = "25%";
+  playerBoundingBox.style.height = "60%";
+
   // Appliquer l'animation de slide
   requestAnimationFrame(() => {
     player.style.animation = "slide 0.3s ease";
@@ -248,14 +264,23 @@ function slide() {
   setTimeout(() => {
     isSliding = false;
     player.style.animation = "";
+    player.querySelector("#player-bounding-box").style.top = "2%";
+    player.querySelector("#player-bounding-box").style.height = "85%";
   }, 300);
 }
 
-function finished() {
+function finished(win = false) {
+  scoreDisplay.style.display = "none";
   gameOverModal.style.display = "flex";
   gameOverModal.querySelector("#final-score").textContent = score;
   score = 0;
-  isDead = true;
+  if (win) {
+    document.querySelector("#modal-title").innerText = "You Win !";
+  } else {
+    document.querySelector("#modal-title").innerText = "Game Over !";
+    isDead = true;
+  }
+
   isJumping = false;
   isSliding = false;
 
@@ -348,6 +373,18 @@ function createObstacle(type, time) {
       obstacleDiv.remove();
     }
   });
+
+  nbObstacleCreated++;
+
+  console.log(nbObstacleCreated);
+  console.log(musicIntervalIds.length);
+
+  if (nbObstacleCreated == musicIntervalIds.length) {
+    setTimeout(() => {
+      if (isDead) return;
+      finished((win = true));
+    }, calculateTimeToPlayer(2000) + 500);
+  }
 }
 
 let AnimationIndex = 1;
@@ -358,7 +395,7 @@ function changeAnimation(base_name, index) {
 
   if (preloadedImages[imagePath]) {
     // Appliquez l'image préchargée comme arrière-plan
-    player.src = `${imagePath}`;
+    player.querySelector("#player-img").src = `${imagePath}`;
   } else {
     console.warn(`Image not preloaded: ${imagePath}`);
   }
@@ -372,35 +409,45 @@ function scheduleActions() {
     .then((data) => {
       // Ajoute les actions "down"
       data.down.forEach((time) => {
-        actions.push({
-          time,
-          type: "down",
-        });
+        if (time >= START_MUSIC_AT) {
+          actions.push({
+            time,
+            type: "down",
+          });
+        }
       });
 
       // Ajoute les actions "up"
       data.up.forEach((time) => {
-        actions.push({
-          time,
-          type: "up",
-        });
+        if (time >= START_MUSIC_AT) {
+          actions.push({
+            time,
+            type: "up",
+          });
+        }
       });
 
       // Ajoute les actions "stay"
       data.stay.forEach((time) => {
-        actions.push({
-          time,
-          type: "stay",
-        });
+        if (time >= START_MUSIC_AT) {
+          actions.push({
+            time,
+            type: "stay",
+          });
+        }
       });
 
       // Trie les actions par temps croissant
       actions.sort((a, b) => a.time - b.time);
-
+      console.log(START_MUSIC_AT);
       // Programme les actions
       actions.forEach(({ time, type }) => {
+        console.log(time, type);
         musicIntervalIds.push(
-          setTimeout(() => createObstacle(type, time), time * 1000)
+          setTimeout(
+            () => createObstacle(type, time),
+            (time - START_MUSIC_AT) * 1000
+          )
         ); // Convertit les secondes en millisecondes
       });
     })

@@ -64,16 +64,27 @@
       <div class="snow">&#10052;</div>
     </div> -->
     <!-- <h1 id="time">Time : <h1> -->
+    <div id="title-div">
+       <p class="christmas-font title">CHRISTMAs TRAP</p>
+       <small>Design by GameArt2D.com</small>
+       <br>
+       <small>Music by Steviie Wonder & Keanu Trap</small>
+       <br>
+       <small>Coded with ❤️ by Jean-Baptiste Brasselet</small>
+       <br>
+       <button id="play-btn" class="christmas-font">Play</button>
+    </div>
     <h1 id="score" class="christmas-font">Score : 0</h1>
-    <button id="play-btn" class="christmas-font">Play</button>
+    
     <div class="game-over-modal">
       <div class="game-over-modal-content">
-        <h2 class="christmas-font">Game Over !</h2>
+        <h2 class="christmas-font" id="modal-title">Game Over !</h2>
            <div>
             <img id="player-over" src="sprites/santa/Idle (1).png"></img>
+           
             <p class="christmas-font" id="final-score-div">Score<br><span id="final-score">0</span></p>
           </div>
-          <button id="restart-btn" onclick="play()">Recommencer</button>
+          <button id="restart-btn" class="christmas-font" onclick="play()">Retry</button>
     
         
       </div>
@@ -82,7 +93,11 @@
       <source src="trap.mp3" type="audio/mpeg" />
     </audio>
     <div id="game">
-      <img id="player"></img>
+      <div id="player">
+        <div id="player-bounding-box"></div>
+        <img id="player-img"></img>
+      </div>
+      
       <div id="snow"></div>
       <div id="ground"></div>
     </div>

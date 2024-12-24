@@ -30,6 +30,28 @@ body {
   padding-left: env(safe-area-inset-left); */
 }
 
+#title-div {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  text-align: center;
+  transform: translate(-50%, -50%);
+  z-index: 4;
+}
+
+#title-div .title {
+  margin-bottom: 10px;
+  color: #9e0202;
+}
+
+#title-div p {
+  font-size: 3rem;
+}
+
+#title-div small {
+  font-weight: bold;
+}
+
 #game {
   /* position: relative; */
   width: 100vw;
@@ -43,12 +65,26 @@ body {
 
 #player {
   position: absolute;
-  border: 1px solid red;
-  bottom: 40px;
+  bottom: 35px;
   left: 8%;
   width: 22%;
+  max-width: 200px;
+  min-width: 130px;
   /* background: url('sprites/Walk\ \(1\).png') no-repeat center; */
   z-index: 3;
+}
+
+#player img {
+  width: 100%;
+}
+
+#player #player-bounding-box {
+  position: absolute;
+  width: 30%;
+  height: 85%;
+  left: 25%;
+  top: 2%;
+  /* border: 1px solid blue; */
 }
 
 .obstacle {
@@ -80,19 +116,36 @@ body {
 }
 
 #play-btn {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  margin-top: 25px;
   width: 200px;
   height: 50px;
-  background-color: #929292;
+  background-color: #9e0202;
   color: white;
   border: none;
   cursor: pointer;
   font-weight: bold;
   border-radius: 10px;
   z-index: 2;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+#restart-btn {
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #9e0202;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-weight: bold;
+  font-size: 30px;
+  cursor: pointer;
 }
 
 #play-btn:hover {
@@ -142,12 +195,16 @@ body {
 #final-score-div {
   text-align: center;
   margin-top: 20px;
-  font-size: 2rem;
+  font-size: 2.5rem;
   color: #9e0202;
   position: absolute;
   top: 20;
-  left: 75%;
+  left: 70%;
   transform: translateX(-50%);
+}
+
+#final-score-div span {
+  font-size: 2.5rem;
 }
 
 #final-score {
@@ -172,11 +229,20 @@ body {
 }
 
 .game-over-modal-content {
-  background-color: #fff;
+  background-color: white;
   position: relative;
   padding: 20px;
-  border-radius: 5px;
+  max-width: 260px;
+  width: 320px;
+  border-radius: 10px;
+  height: 300px;
   text-align: center;
+}
+
+.game-over-modal-content h2 {
+  font-size: 35px;
+  margin-top: 0px;
+  margin-bottom: 10px;
 }
 
 .game-over-modal-content div {
@@ -185,17 +251,20 @@ body {
 
 #player-over {
   width: 300px;
+  position: absolute;
+  left: -35px;
+  bottom: 60px;
 }
 
 @keyframes jump {
   0% {
-    bottom: 40px;
+    bottom: 35px;
   }
   50% {
-    bottom: 200px;
+    bottom: 50%;
   }
   100% {
-    bottom: 40px;
+    bottom: 35px;
   }
 }
 
