@@ -10,10 +10,10 @@
   src: url(./font/SnowForSanta.ttf) format("truetype");
 }
 
-html.iphone,
+/* html.iphone,
 html.iphone body {
   height: 100.1%;
-}
+} */
 
 .christmas-font {
   font-family: "SnowForSanta";
@@ -21,23 +21,34 @@ html.iphone body {
 
 html {
   margin: 0;
-  height: 100vh;
-  width: 100vw;
   padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
   font-family: "Arial", sans-serif;
   /* background: linear-gradient(to bottom, #87CEEB, #fff); */
   overflow: hidden;
   background: url("./sprites/BG.png");
+  background-color: #05fa25;
+}
+
+@supports (-webkit-touch-callout: none) {
+  body {
+    height: -webkit-fill-available; /* Plein écran spécifique à iOS */
+  }
 }
 
 body {
   margin: 0;
-  height: 100vh;
-  width: 100vw;
-  padding-top: env(safe-area-inset-top);
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #ff0022;
+  /* padding-top: env(safe-area-inset-top);
   padding-right: env(safe-area-inset-right);
   padding-bottom: env(safe-area-inset-bottom);
-  padding-left: env(safe-area-inset-left);
+  padding-left: env(safe-area-inset-left); */
 }
 
 #arrow-left {
