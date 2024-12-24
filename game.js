@@ -66,9 +66,9 @@ scoreDisplay.style.display = "none";
 checkSize();
 
 function play() {
-  document.documentElement.requestFullscreen().catch((err) => {
-    alert(`Error attempting to enable fullscreen mode: ${err.message}`);
-  });
+  // document.documentElement.requestFullscreen().catch((err) => {
+  //   alert(`Error attempting to enable fullscreen mode: ${err.message}`);
+  // });
   animationDuration = calculateAnimationDuration();
 
   nbObstacleCreated = 0;
