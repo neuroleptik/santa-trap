@@ -22,6 +22,7 @@ html.iphone body {
 }
 
 html {
+  min-height: -webkit-fill-available;
   margin: 0;
   height: 100vh;
   width: 100vw;
@@ -33,6 +34,7 @@ html {
 }
 
 body {
+  min-height: -webkit-fill-available;
   margin: 0;
   height: 100vh;
   width: 100vw;
@@ -40,6 +42,24 @@ body {
   padding-right: env(safe-area-inset-right);
   padding-bottom: env(safe-area-inset-bottom);
   padding-left: env(safe-area-inset-left); */
+}
+
+#arrow-left {
+  position: absolute;
+  top: 40%;
+  left: 75px;
+  font-size: 100px;
+  transform: translate(-50%, -50%);
+  z-index: 4;
+}
+
+#arrow-right {
+  position: absolute;
+  top: 40%;
+  right: 75px;
+  transform: translate(50%, -50%);
+  font-size: 100px;
+  z-index: 4;
 }
 
 #title-div {

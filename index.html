@@ -8,62 +8,8 @@
     <meta name="apple-mobile-web-app-capable" content="no">
     <title>Santa Trap</title>
     <link rel="stylesheet" href="style.css" />
-    <!-- <link rel="stylesheet" href="snow.css" /> -->
   </head>
   <body>
-    <!-- <div class="initial-snow">
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-      <div class="snow">&#10052;</div>
-    </div> -->
-    <!-- <h1 id="time">Time : <h1> -->
     <div id="title-div">
        <p class="christmas-font title">CHRISTMAs TRAP</p>
        <small>Design by GameArt2D.com</small>
@@ -85,14 +31,14 @@
             <p class="christmas-font" id="final-score-div">Score<br><span id="final-score">0</span></p>
           </div>
           <button id="restart-btn" class="christmas-font" onclick="play()">Retry</button>
-    
-        
       </div>
     </div>
     <audio id="music">
       <source src="trap.mp3" type="audio/mpeg" />
     </audio>
     <div id="game">
+      <div id="arrow-left" onclick="jump()">⇑</div>
+      <div id="arrow-right" onclick="slide()">⇓</div>
       <div id="player">
         <div id="player-bounding-box"></div>
         <img id="player-img"></img>
