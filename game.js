@@ -519,3 +519,16 @@ document.addEventListener("visibilitychange", function () {
 document.addEventListener("gesturestart", (e) => e.preventDefault());
 document.addEventListener("gesturechange", (e) => e.preventDefault());
 document.addEventListener("gestureend", (e) => e.preventDefault());
+
+const isStandalonePWA =
+  window.matchMedia("(display-mode: standalone)").matches ||
+  window.navigator.standalone;
+const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+if (isStandalonePWA) {
+  alert("L'application est exécutée comme une PWA");
+} else if (isSafari) {
+  alert("L'application est exécutée dans Safari");
+} else {
+  alert("L'application est exécutée dans un autre navigateur");
+}
