@@ -1,4 +1,4 @@
-const DEBUG = true;
+const DEBUG = false;
 const START_MUSIC_AT = 0;
 const COLLISION = true;
 
