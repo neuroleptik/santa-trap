@@ -510,6 +510,20 @@ function checkSize() {
   }
 }
 
+document.addEventListener("visibilitychange", function () {
+  if (document.visibilityState === "hidden") {
+    // Mettre en pause la musique si l'onglet n'est pas visible
+    if (music && !music.paused) {
+      music.pause();
+    }
+  } else if (document.visibilityState === "visible") {
+    // Reprendre la musique si nécessaire lorsque l'onglet redevient visible
+    if (music && music.paused) {
+      music.play();
+    }
+  }
+});
+
 // console.log("animation time to player:", calculateTraversalTime());
 
 // function calculateTraversalTime(
