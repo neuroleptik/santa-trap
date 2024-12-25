@@ -295,8 +295,8 @@ function finished(win = false) {
 
   fadeAudioIntervalId = setInterval(() => {
     if (music.volume > 0) {
-      // let volume = Math.max(0, music.volume - 0.1); // Decrease volume
-      music.volume = 0; // Apply the new volume
+      let volume = Math.max(0, music.volume - 0.1); // Decrease volume
+      music.volume = volume; // Apply the new volume
     } else {
       clearInterval(fadeAudioIntervalId); // Stop fading when volume is 0
       music.pause(); // Optionally pause the audio
