@@ -1,6 +1,7 @@
 const DEBUG = false;
 const START_MUSIC_AT = 0;
 const COLLISION = true;
+const HITBOX_REDUCTION_PX = 5;
 
 let gameArea = document.getElementById("game");
 let player = document.getElementById("player");
@@ -19,8 +20,8 @@ var isPlaying = false;
 const preloadedImages = {};
 const gameOverModal = document.querySelector(".game-over-modal");
 let gameOverModalelementBottomPosition = "35px";
-let arrowLeft = document.getElementById("arrow-left");
-let arrowRight = document.getElementById("arrow-right");
+let arrowLeftArea = document.getElementById("controll-area-left");
+let arrowRightArea = document.getElementById("controll-area-right");
 
 let collisionIntervalId;
 let animationIntervalId;
@@ -48,8 +49,8 @@ function preloadImages(imagePaths) {
   });
 }
 
-arrowLeft.style.display = "none";
-arrowRight.style.display = "none";
+arrowLeftArea.style.display = "none";
+arrowRightArea.style.display = "none";
 
 // Charger les images depuis le fichier JSON
 fetch("./sprites/santa/santa-images.json")
@@ -71,18 +72,20 @@ scoreDisplay.style.display = "none";
 
 checkSize();
 
+arrowLeftArea.addEventListener("touchstart", (e) => {
+  e.preventDefault();
+  slide();
+});
+arrowRightArea.addEventListener("touchstart", (e) => {
+  e.preventDefault();
+  jump();
+});
+
 function play() {
   animationDuration = calculateAnimationDuration();
 
-  arrowLeft.style.display = "block";
-  arrowRight.style.display = "block";
-
-  arrowLeft.addEventListener("touchstart", () => {
-    slide();
-  });
-  arrowRight.addEventListener("touchstart", () => {
-    jump();
-  });
+  arrowLeftArea.style.display = "block";
+  arrowRightArea.style.display = "block";
 
   nbObstacleCreated = 0;
   musicIntervalIds = [];
@@ -103,6 +106,11 @@ function play() {
   isDead = false;
   isPlaying = true;
 
+  setTimeout(() => {
+    music.volume = 1;
+    music.play();
+  }, calculateTimeToPlayer(animationDuration * 1000) + 50);
+
   Array.from(obstacles).forEach((obstacle) => {
     obstacle.remove();
   });
@@ -113,11 +121,6 @@ function play() {
     }
   );
   playBtn.style.display = "none";
-
-  setTimeout(() => {
-    music.volume = 1;
-    music.play();
-  }, calculateTimeToPlayer(animationDuration * 1000) + 50);
 
   objectGenerationIntervalId = setInterval(() => {
     const backgroundObject = document.createElement("img");
@@ -167,8 +170,8 @@ function play() {
 
       // Vérifie si le joueur entre en collision avec cet obstacle
       if (
-        playerBoundingBoxRect.right > obstacleRect.left &&
-        playerBoundingBoxRect.left < obstacleRect.right
+        playerBoundingBoxRect.right - HITBOX_REDUCTION_PX > obstacleRect.left &&
+        playerBoundingBoxRect.left + HITBOX_REDUCTION_PX < obstacleRect.right
       ) {
         // Gère la logique en cas de collision
         if (obstacle.classList.contains("stay")) {
@@ -292,8 +295,8 @@ function finished(win = false) {
 
   fadeAudioIntervalId = setInterval(() => {
     if (music.volume > 0) {
-      let volume = Math.max(0, music.volume - 0.1); // Decrease volume
-      music.volume = volume; // Apply the new volume
+      // let volume = Math.max(0, music.volume - 0.1); // Decrease volume
+      music.volume = 0; // Apply the new volume
     } else {
       clearInterval(fadeAudioIntervalId); // Stop fading when volume is 0
       music.pause(); // Optionally pause the audio
