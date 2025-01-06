@@ -3,25 +3,27 @@ const START_MUSIC_AT = 0;
 const COLLISION = true;
 const HITBOX_REDUCTION_PX = 5;
 
-let gameArea = document.getElementById("game");
-let player = document.getElementById("player");
-let playerBoundingBox = document.getElementById("player-bounding-box");
-let obstacles = document.getElementsByClassName("obstacle");
-let scoreDisplay = document.getElementById("score");
-let playBtn = document.getElementById("play-btn");
-let music = document.getElementById("music");
-let titleDiv = document.getElementById("title-div");
+const gameArea = document.getElementById("game");
+const player = document.getElementById("player");
+const playerBoundingBox = document.getElementById("player-bounding-box");
+const obstacles = document.getElementsByClassName("obstacle");
+const scoreDisplay = document.getElementById("score");
+const playBtn = document.getElementById("play-btn");
+const music = document.getElementById("music");
+const titleDiv = document.getElementById("title-div");
+
 let isJumping = false;
 let isSliding = false;
 let isDead = false;
 let score = 0;
 let animationDuration = 0;
-var isPlaying = false;
+let isPlaying = false;
+
 const preloadedImages = {};
 const gameOverModal = document.querySelector(".game-over-modal");
-let gameOverModalelementBottomPosition = "35px";
-let arrowLeftArea = document.getElementById("controll-area-left");
-let arrowRightArea = document.getElementById("controll-area-right");
+const gameOverModalelementBottomPosition = "35px";
+const arrowLeftArea = document.getElementById("controll-area-left");
+const arrowRightArea = document.getElementById("controll-area-right");
 
 let collisionIntervalId;
 let animationIntervalId;
@@ -35,24 +37,23 @@ let musicIntervalIds = [];
 const spriteBasePath = "sprites/santa/";
 const spriteObstacleBasePath = "sprites/objects/";
 
-let obstacleArray = ["Stone", "Crate", "Crystal", "Sign_2", "IceBox"];
-let upperObstacleObjects = ["Crate", "Stone", "IceBox"];
-let backgroundObjectArray = ["Tree_1", "Tree_2", "SnowMan", "Igloo"];
+const obstacleArray = ["Stone", "Crate", "Crystal", "Sign_2", "IceBox"];
+const upperObstacleObjects = ["Crate", "Stone", "IceBox"];
+const backgroundObjectArray = ["Tree_1", "Tree_2", "SnowMan", "Igloo"];
 
-var e = new Event("touchstart");
+let e = new Event("touchstart");
 
 function preloadImages(imagePaths) {
   imagePaths.forEach((path) => {
     const img = new Image();
-    img.src = path; // Charge l'image
-    preloadedImages[path] = img; // Stocke l'image préchargée
+    img.src = path;
+    preloadedImages[path] = img;
   });
 }
 
 arrowLeftArea.style.display = "none";
 arrowRightArea.style.display = "none";
 
-// Charger les images depuis le fichier JSON
 fetch("./sprites/santa/santa-images.json")
   .then((response) => response.json())
   .then((images) => {
@@ -81,6 +82,11 @@ arrowRightArea.addEventListener("touchstart", (e) => {
   jump();
 });
 
+/**
+ * Launch the game.
+ *
+ * @returns {void}
+ */
 function play() {
   animationDuration = calculateAnimationDuration();
 
@@ -133,7 +139,6 @@ function play() {
       ".png";
     gameArea.appendChild(backgroundObject);
 
-    // Supprimer l'obstacle une fois hors écran
     backgroundObject.addEventListener("animationend", (event) => {
       if (event.target === backgroundObject) {
         backgroundObject.remove();
@@ -146,15 +151,12 @@ function play() {
     }
   });
 
-  //slide function
   document.addEventListener("keydown", (e) => {
     if (e.code === "ArrowDown" && !isSliding) {
       slide();
     }
   });
 
-  // // Collision detection
-  // Intervalle pour vérifier les collisions
   collisionIntervalId = setInterval(() => {
     score++;
     scoreDisplay.textContent = "Score : " + score;
@@ -163,17 +165,14 @@ function play() {
     if (isDead) return;
     if (obstacles.length === 0) return;
 
-    // Parcourt tous les obstacles pour vérifier les collisions
     Array.from(obstacles).forEach((obstacle, index) => {
       const obstacleRect = obstacle.getBoundingClientRect();
       const playerBoundingBoxRect = playerBoundingBox.getBoundingClientRect();
 
-      // Vérifie si le joueur entre en collision avec cet obstacle
       if (
         playerBoundingBoxRect.right - HITBOX_REDUCTION_PX > obstacleRect.left &&
         playerBoundingBoxRect.left + HITBOX_REDUCTION_PX < obstacleRect.right
       ) {
-        // Gère la logique en cas de collision
         if (obstacle.classList.contains("stay")) {
           if (playerBoundingBoxRect.top < obstacleRect.bottom) {
             finished();
@@ -190,22 +189,17 @@ function play() {
           }
         }
       }
-
-      // Met à jour le score si l'obstacle a été dépassé
       if (obstacleRect.right < playerBoundingBoxRect.left) {
-        // Optionnel : supprime l'obstacle s'il est hors écran
         if (obstacleRect.right < 0) {
-          Array.from(obstacles).slice(index, 1); // Retire l'obstacle de la liste
-          obstacle.remove(); // Retire l'élément DOM
+          Array.from(obstacles).slice(index, 1);
+          obstacle.remove();
         }
       }
     });
   }, 60);
-  //generation d'obstacle
   obstacleGenerationIntervalId = scheduleActions();
 }
 
-// // Change chararctere image to animate
 animationIntervalId = setInterval(() => {
   if (!isPlaying) {
     if (AnimationIndex > 15) AnimationIndex = 1;
@@ -226,50 +220,60 @@ animationIntervalId = setInterval(() => {
     }
   }
 
-  AnimationIndex++; // Incrémentez l'index
+  AnimationIndex++;
 }, 70);
 
+/**
+ * Jumps the player up.
+ *
+ * This function will first check if the player is already jumping. If so, it will return.
+ * Then, it will set the jumping flag to true and the sliding flag to false, reset the animation index to 1, and set the animation to none.
+ * It will then set the bottom position of the player to the bottom of the game over modal element.
+ * Finally, it will request an animation frame to set the jump animation, and set a timeout of 300ms to reset the jumping flag and animation.
+ */
 function jump() {
-  if (isJumping) return; // Empêche un double saut
+  if (isJumping) return;
 
   isJumping = true;
-  isSliding = false; // Interrompre le slide si un saut est déclenché
+  isSliding = false;
   AnimationIndex = 1;
 
-  // Réinitialiser la position de base pour éviter les conflits
   player.style.animation = "";
   player.style.bottom = gameOverModalelementBottomPosition;
 
-  // Appliquer l'animation de saut
   requestAnimationFrame(() => {
     player.style.animation = "jump 0.3s ease";
   });
 
-  // Réinitialiser l'état après la durée du saut
   setTimeout(() => {
     isJumping = false;
     player.style.animation = "";
   }, 300);
 }
 
+/**
+ * Initiates a sliding action for the player.
+ *
+ * This function sets the player's animation to slide and adjusts the player's bounding box
+ * to simulate a sliding motion. The sliding state is activated and the jumping state is deactivated.
+ * After a short delay, the sliding state is reset, and the bounding box is restored to its original dimensions.
+ */
+
 function slide() {
   AnimationIndex = 1;
-  isJumping = false; // Stopper le saut immédiatement
+  isJumping = false;
   isSliding = true;
 
-  // Réinitialiser la position du personnage avant d'appliquer l'animation de slide
-  player.style.animation = ""; // Annuler toute animation en cours
-  player.style.bottom = gameOverModalelementBottomPosition; // Remettre à la position de base
+  player.style.animation = "";
+  player.style.bottom = gameOverModalelementBottomPosition;
 
   playerBoundingBox.style.top = "25%";
   playerBoundingBox.style.height = "60%";
 
-  // Appliquer l'animation de slide
   requestAnimationFrame(() => {
     player.style.animation = "slide 0.3s ease";
   });
 
-  // Réinitialiser après la durée de l'animation
   setTimeout(() => {
     isSliding = false;
     player.style.animation = "";
@@ -277,6 +281,16 @@ function slide() {
     player.querySelector("#player-bounding-box").style.height = "85%";
   }, 300);
 }
+
+/**
+ * Ends the game and displays the game over or win modal.
+ *
+ * This function stops all ongoing animations and intervals, displays the final score,
+ * and shows the game over or win message based on whether the player has won.
+ * It also handles fading out the music, resets the score, and re-enables the play button.
+ *
+ * @param {boolean} win - Indicates whether the player has won the game.
+ */
 
 function finished(win = false) {
   scoreDisplay.style.display = "none";
@@ -295,56 +309,62 @@ function finished(win = false) {
 
   fadeAudioIntervalId = setInterval(() => {
     if (music.volume > 0) {
-      let volume = Math.max(0, music.volume - 0.1); // Decrease volume
-      music.volume = volume; // Apply the new volume
+      let volume = Math.max(0, music.volume - 0.1);
+      music.volume = volume;
     } else {
-      clearInterval(fadeAudioIntervalId); // Stop fading when volume is 0
-      music.pause(); // Optionally pause the audio
+      clearInterval(fadeAudioIntervalId);
+      music.pause();
     }
   }, 100);
 
-  // Arrête les intervalles
   clearInterval(collisionIntervalId);
   clearInterval(objectGenerationIntervalId);
   clearInterval(obstacleGenerationIntervalId);
   musicIntervalIds.forEach((id) => clearInterval(id));
 
-  // Supprime les animations des obstacles
   Array.from(document.getElementsByClassName("obstacle")).forEach(
     (obstacle) => {
       const computedStyle = getComputedStyle(obstacle);
 
-      // Extraire la position actuelle
       const currentRight = computedStyle.right;
       const currentBottom = computedStyle.bottom;
 
-      // Appliquer la position actuelle et stopper l'animation
       obstacle.style.animation = "none";
       obstacle.style.right = currentRight;
       obstacle.style.bottom = currentBottom;
     }
   );
 
-  // Arrêter les animations des objets d'arrière-plan
   Array.from(document.getElementsByClassName("background-object")).forEach(
     (bgObject) => {
       const computedStyle = getComputedStyle(bgObject);
 
-      // Extraire la position actuelle
       const currentRight = computedStyle.right;
       const currentBottom = computedStyle.bottom;
 
-      // Appliquer la position actuelle et stopper l'animation
       bgObject.style.animation = "none";
       bgObject.style.right = currentRight;
       bgObject.style.bottom = currentBottom;
     }
   );
 
-  // Réafficher le bouton play
   playBtn.style.display = "block";
 }
 
+/**
+ * Creates an obstacle based on the given type and time.
+ *
+ * This function creates a DOM element for the obstacle, sets its animation and
+ * bottom position based on the given type, and appends it to the game area.
+ *
+ * If debug mode is enabled, it also adds a debug element displaying the time at which the obstacle was created.
+ *
+ * Finally, it increments the number of obstacles created and checks if it has reached the total number of obstacles in the music interval array.
+ * If it has, it schedules a timeout to finish the game after a short delay.
+ *
+ * @param {string} type - The type of the obstacle to create. Can be "stay", "down", or "up".
+ * @param {number} time - The time at which the obstacle was created.
+ */
 function createObstacle(type, time) {
   const obstacle = document.createElement("img");
   const obstacleDiv = document.createElement("div");
@@ -375,10 +395,8 @@ function createObstacle(type, time) {
   }
   obstacleDiv.appendChild(obstacle);
 
-  // Ajouter l'obstacle dans la zone de jeu
   gameArea.appendChild(obstacleDiv);
 
-  // Supprimer l'obstacle une fois hors écran
   obstacleDiv.addEventListener("animationend", (event) => {
     if (event.target === obstacleDiv) {
       obstacleDiv.remove();
@@ -397,25 +415,43 @@ function createObstacle(type, time) {
 
 let AnimationIndex = 1;
 
+/**
+ * Changes the current animation image to the one at the given index.
+ *
+ * If the image at the given index has been preloaded, it is used as the new player image.
+ * If the image has not been preloaded, a console warning is printed.
+ *
+ * @param {string} base_name - The base name of the animation, without index or extension.
+ * @param {number} index - The index of the animation image to change to.
+ * @returns {void}
+ */
 function changeAnimation(base_name, index) {
   const currentImage = `${base_name} (${index}).png`;
   const imagePath = `${spriteBasePath}${currentImage}`;
 
   if (preloadedImages[imagePath]) {
-    // Appliquez l'image préchargée comme arrière-plan
     player.querySelector("#player-img").src = `${imagePath}`;
   } else {
     console.warn(`Image not preloaded: ${imagePath}`);
   }
 }
 
-// Fonction pour exécuter une action au bon moment
+/**
+ * Schedules the creation of obstacles based on the data in the JSON file.
+ *
+ * This function will fetch the JSON file, parse it, and then create a sorted list of actions to perform.
+ * Each action is either a "down", "up", or "stay" type, and each is scheduled to happen at the given time.
+ * The actions are scheduled using setTimeout, and the time is calculated as the difference between the current time and the start time of the music.
+ *
+ * This function should be called once the music has started playing.
+ *
+ * @returns {void}
+ */
 function scheduleActions() {
   const actions = [];
   fetch("./trap.json")
     .then((response) => response.json())
     .then((data) => {
-      // Ajoute les actions "down"
       data.down.forEach((time) => {
         if (time >= START_MUSIC_AT) {
           actions.push({
@@ -425,7 +461,6 @@ function scheduleActions() {
         }
       });
 
-      // Ajoute les actions "up"
       data.up.forEach((time) => {
         if (time >= START_MUSIC_AT) {
           actions.push({
@@ -435,7 +470,6 @@ function scheduleActions() {
         }
       });
 
-      // Ajoute les actions "stay"
       data.stay.forEach((time) => {
         if (time >= START_MUSIC_AT) {
           actions.push({
@@ -445,29 +479,31 @@ function scheduleActions() {
         }
       });
 
-      // Trie les actions par temps croissant
       actions.sort((a, b) => a.time - b.time);
-      // Programme les actions
+
       actions.forEach(({ time, type }) => {
         musicIntervalIds.push(
           setTimeout(
             () => createObstacle(type, time),
             (time - START_MUSIC_AT) * 1000
           )
-        ); // Convertit les secondes en millisecondes
+        );
       });
     })
     .catch((error) => console.error("Error loading traps:", error));
 }
 
+/**
+ * Calculates the time it takes for an obstacle to reach the player given the animation duration.
+ * @param {number} animationDuration - The animation duration of the obstacle.
+ * @returns {number} The time it takes for the obstacle to reach the player.
+ */
 function calculateTimeToPlayer(animationDuration) {
   const screenWidth = window.innerWidth;
   const playerPosition = player.getBoundingClientRect().right;
 
-  // Distance entre la droite de l'écran et le joueur
   const distanceToPlayer = screenWidth - playerPosition;
 
-  // Temps nécessaire pour atteindre le joueur
   return animationDuration * (distanceToPlayer / screenWidth);
 }
 
@@ -489,12 +525,27 @@ document.addEventListener(
   { passive: false }
 );
 
+/**
+ * Calculates the animation duration based on the screen width.
+ * The animation duration is the time it takes for an obstacle to move from the right edge of the screen to the left edge.
+ * The duration is calculated as the screen width divided by 900.
+ * This value was chosen so that the animation is fast enough to be fun, but not so fast that it's impossible to react.
+ * @returns {number} The animation duration in seconds.
+ */
 function calculateAnimationDuration() {
-  const screenWidth = window.innerWidth; // Largeur de l'écran
-  const distanceToTravel = screenWidth; // Les obstacles traversent tout l'écran
-  return distanceToTravel / 900; // Durée en secondes
+  const screenWidth = window.innerWidth;
+  const distanceToTravel = screenWidth;
+  return distanceToTravel / 900;
 }
 
+/**
+ * Checks the size of the window and disables or enables the play button based on it.
+ * If the window is in standalone mode (i.e. a PWA), and the width is less than the height,
+ * the button is disabled and the text changed to "Turn your phone to play".
+ * If the window is in a Safari browser, the button is disabled and the text changed to "Please add the app to home screen to play".
+ * Otherwise, the button is enabled and the text changed to "Play".
+ * @returns {void}
+ */
 function checkSize() {
   const width = window.innerWidth;
   const height = window.innerHeight;
@@ -506,10 +557,8 @@ function checkSize() {
 
   if (isStandalonePWA) {
     if (width < height) {
-      // Activate the button if width is less than height
       playBtn.innerText = "Turn your phone to play";
       playBtn.style.backgroundColor = "inherit";
-      //playBtn.style.background = "inherit";
       playBtn.disabled = true;
     } else {
       playBtn.innerText = "Play";
@@ -522,10 +571,8 @@ function checkSize() {
     playBtn.style.backgroundColor = "inherit";
   } else {
     if (width < height) {
-      // Activate the button if width is less than height
       playBtn.innerText = "Turn your phone to play";
       playBtn.style.backgroundColor = "inherit";
-      //playBtn.style.background = "inherit";
       playBtn.disabled = true;
     } else {
       playBtn.innerText = "Play";
@@ -537,12 +584,10 @@ function checkSize() {
 
 document.addEventListener("visibilitychange", function () {
   if (document.visibilityState === "hidden") {
-    // Mettre en pause la musique si l'onglet n'est pas visible
     if (music && !music.paused) {
       music.pause();
     }
   } else if (document.visibilityState === "visible") {
-    // Reprendre la musique si nécessaire lorsque l'onglet redevient visible
     if (music && music.paused) {
       music.play();
     }
