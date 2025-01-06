@@ -1,45 +1,42 @@
-Santa Trap
+# Santa Trap
 
 Christmas project for fun
 
-Description
+## Description
 
-Santa Trap is a fun Christmas-themed project built using JavaScript, CSS, and HTML. The project is designed to provide a festive and interactive experience.
-Features
+Santa Trap is a fun Christmas-themed project built using JavaScript, CSS, and HTML. The project is designed to provide a festive and interactive experience based on music rythms.
 
-    Interactive gameplay with Christmas-themed graphics
-    Custom fonts and styles to enhance the festive feel
-    Responsive design for different screen sizes
+## Features
 
-Installation
+- Interactive gameplay with Christmas-themed graphics
+- Custom fonts and styles to enhance the festive feel
+- Responsive design for different screen sizes
 
-    Clone the repository:
+## Installation
 
-    git clone https://github.com/neuroleptik/santa-trap.git
+1. Clone the repository:
+   ```
+   git clone https://github.com/neuroleptik/santa-trap.git
+   ```
+2. Navigate to the project directory:
+   ```
+   cd santa-trap
+   ```
+3. Open `index.html` in your preferred web browser.
 
-Navigate to the project directory:
+## Usage
 
-cd santa-trap
+- Use the left and right arrows to navigate.
+- Enjoy the festive gameplay and try to finish the level !
 
-    Open index.html in your preferred web browser.
+## License
 
-Usage
+This project is licensed under the MIT License.
 
-    Use the left and right arrows to navigate.
-    Enjoy the festive gameplay and try to trap Santa!
+## Acknowledgements
 
-Contributing
+- Special thanks to Steviie Wonder & Keanu Trap for the music (All rights reserved) and GameArt2D.com for the sprites and designs used.
 
-Contributions are welcome! Please fork the repository and create a pull request with your changes. Ensure your code adheres to the project's coding standards.
-License
+## Contact
 
-This project is licensed under the MIT License. See the LICENSE file for details.
-Acknowledgements
-
-    Special thanks to all contributors and supporters.
-
-Contact
-
-For any inquiries or feedback, you can reach out to neuroleptik.
-
-Feel free to modify this README to better suit your project's needs.
+For any inquiries or feedback, you can reach out to [neuroleptik](https://github.com/neuroleptik).
