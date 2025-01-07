@@ -1,4 +1,4 @@
-# Santa Trap
+# Santa Trap 🎅
 
 Christmas project for fun
 
